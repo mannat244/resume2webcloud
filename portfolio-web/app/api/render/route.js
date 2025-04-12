@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
-import { writeFileSync ,fs , readFileSync , unlinkSync} from "fs";
-import path from "path";
+import {v2 as cloudinary} from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 
 export async function POST(req) {
@@ -4621,41 +4626,51 @@ switch (templates) {
     htmlContent = design6;
     break;
 }
-
-       
-try{
-
-    const filePath = path.join(process.cwd(), "public", `portfolio_${timestamps}.html`);
-
-    console.log(`portfolio_${timestamps}.html`)
-
-    writeFileSync(filePath, htmlContent, "utf8");
-
-    setTimeout(() => {
-        try {
-            unlinkSync(filePath);  
-            console.log("HTML File deleted successfully!");
-        } catch (err) {
-            console.error("Error HTML deleting file:", err);
+try {
+    const buffer = Buffer.from(htmlContent, "utf8");
+    const base64HTML = `data:text/html;base64,${buffer.toString("base64")}`;
+  
+    try {
+      // Upload the HTML file to Cloudinary in the "portfolioHtml" folder as a raw resource
+      const uploadResponse = await cloudinary.uploader.upload(base64HTML, {
+        folder: "portfolioHtml",
+        resource_type: "raw",
+        public_id: `portfolio_${timestamps}.html`,
+      });
+  
+      console.log(uploadResponse.secure_url);
+  
+      return NextResponse.json(
+        {
+          status: 200,
+          url: uploadResponse.secure_url,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
         }
-    }, 60000);
-
-
-    return new NextResponse(htmlContent, {
-        status: 200,
-        headers: {
-            "Content-Type": "text/html",
+      ); // ✅ Semicolon added here
+  
+    } catch (error) {
+      return NextResponse.json(
+        {
+          details: error.toString(),
+          status: 502,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
         }
-    })
-
-} catch (error) {
-    console.log(error)
-    return NextResponse.json({
-        details: error,
+      );
+    }
+  } catch (outerError) {
+    console.error("Outer error:", outerError);
+    return NextResponse.json(
+      {
+        details: outerError.toString(),
         status: 502,
-    });
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
 }
-
-}
-
-    

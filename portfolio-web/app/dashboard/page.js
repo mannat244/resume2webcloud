@@ -95,6 +95,59 @@ export default function Dashboard() {
     settemplate(parseInt(e.target.value)); 
   };
 
+  const previewWithDownload = (url) => {
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const blob = new Blob([html], { type: "text/html" });
+        const blobUrl = URL.createObjectURL(blob);
+  
+        const htmlPreview = `
+          <html>
+            <head>
+              <title>Portfolio Preview</title>
+              <style>
+              ::-webkit-scrollbar {
+    display: none;
+}
+                body { margin: 0; font-family: sans-serif; }
+                .download-bar {
+                  padding: 10px;
+                  background: rgb(24 24 27);;
+                  color: #fff;
+                  text-align: center;
+                }
+                .download-bar a {
+                  color: #fff;
+                  text-decoration: none;
+                  font-weight: bold;
+                }
+                iframe {
+                  width: 100%;
+                  height: calc(100vh - 40px);
+                  border: none;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="download-bar">
+                <a href="${url}" download="portfolio.html">Click Here To Download Your Stunning portfolio</a>
+              </div>
+              <iframe src="${blobUrl}"></iframe>
+            </body>
+          </html>
+        `;
+  
+        const newTab = window.open();
+        if (newTab) {
+          newTab.document.write(htmlPreview);
+          newTab.document.close();
+        } else {
+          alert("Please enable popups for this site to see the preview.");
+        }
+      });
+  };
+
   const uploadFile = async (e) => {
     e.preventDefault();
     if (buttonRef.current) {
@@ -140,28 +193,19 @@ export default function Dashboard() {
           body: JSON.stringify({ details: cleanedJson, templates: template, timestamps: timestamp }),
           headers: { "Content-Type": "application/json" },
         });
-  
-        if (!renderResponse.ok) {
+        
+        if (!renderResponse.ok) {           
           setmessage("👀 Rendering failed...");
           throw new Error("Failed to generate HTML");
         }
-  
-        const html = await renderResponse.text();
-  
-        setmessage("👀 Rendering website preview...");
+        
+        const { url } = await renderResponse.json();
         buttonRef.current.disabled = false;
-  
-        // Open new tab and write the HTML content
-        const newTab = window.open();
-        if (!newTab) {
-          throw new Error("Popup blocked! Please allow pop-ups for this site.");
-        }
-        newTab.document.write(html);
-        newTab.document.close();
-  
-        // Trigger file download
-        downloadFile(html);
+        
+        previewWithDownload(url);
+          
         setmessage("🚀 Website is ready!");
+        
       } else {
         setmessage("❌ We couldn't extract data. Is your PDF a scanned or image-based file?");
       }
