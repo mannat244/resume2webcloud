@@ -95,7 +95,7 @@ export default function Dashboard() {
     settemplate(parseInt(e.target.value)); 
   };
 
-  const previewWithDownload = (url) => {
+  const previewWithDownload = (url) => { 
     fetch(url)
       .then(response => response.text())
       .then(html => {
@@ -105,33 +105,41 @@ export default function Dashboard() {
         const htmlPreview = `
           <html>
             <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
               <title>Portfolio Preview</title>
               <style>
-              ::-webkit-scrollbar {
-    display: none;
-}
-                body { margin: 0; font-family: sans-serif; }
+                /* Hide scrollbar for a cleaner look */
+                ::-webkit-scrollbar {
+                  display: none;
+                }
+                body { 
+                  margin: 0; 
+                  font-family: sans-serif; 
+                }
                 .download-bar {
-                  padding: 10px;
-                  background: rgb(24 24 27);;
+                  padding: 15px; /* increased padding for mobile comfort */
+                  background: rgb(24, 24, 27);
                   color: #fff;
                   text-align: center;
+                  font-size: 1.1em; /* slightly larger text */
                 }
                 .download-bar a {
-                  color: #fff;
+                  color:  rgb(152, 156, 157);
                   text-decoration: none;
                   font-weight: bold;
                 }
                 iframe {
                   width: 100%;
-                  height: calc(100vh - 40px);
+                  height: calc(100vh - 60px); /* adjust height based on download bar height */
                   border: none;
                 }
               </style>
             </head>
             <body>
               <div class="download-bar">
-                <a href="${url}" download="portfolio.html">Click Here To Download Your Stunning portfolio</a>
+                <a href="${url}" download="portfolio.html">
+                  Click Here To Download Your Stunning Portfolio
+                </a>
               </div>
               <iframe src="${blobUrl}"></iframe>
             </body>
@@ -147,6 +155,7 @@ export default function Dashboard() {
         }
       });
   };
+  
 
   const uploadFile = async (e) => {
     e.preventDefault();
@@ -232,9 +241,9 @@ export default function Dashboard() {
         <div className="text mx-auto w-fit mt-14">        
           <h1 className="text-xl font-semibold text-white text-center">Upload your resume (PDF) to auto-generate your portfolio ✨</h1>
         </div>
-        <form className=" flex flex-col items-center">
+        <form className=" flex flex-col items-center justify-center">
           <div className="mt-5 w-fit"> <label htmlFor="resume" className="text-white mr-1 font-semibold">Upload: </label>
-          <input type="file" id="resume" name="resume" className="text-zinc-400 cursor-pointer bg-zinc-800 rounded-lg p-1 file:bg-stone-900 file:outline-none file:text-white file:border-none file:rounded-sm file:text-sm file:py-1 file:px-2 file:mr-1" onChange={handleFile}></input></div>
+          <input type="file" id="resume" name="resume" className="mx-auto w-fit text-zinc-400 cursor-pointer bg-zinc-800 rounded-lg p-1 file:bg-stone-900 file:outline-none file:text-white file:border-none file:rounded-sm file:text-sm file:py-1 file:px-2 file:mr-1" onChange={handleFile}></input></div>
           <p className="text-zinc-400 text-sm mt-1">Format: pdf</p>
           <h1 className="text-xl font-semibold text-white mt-3 text-center">Pick Your Perfect Design ✨</h1>
           <div className="h-fit w-[90vw] mt-8 flex-wrap rounded-xl flex items-center justify-center gap-3">
@@ -246,7 +255,7 @@ export default function Dashboard() {
         ))}
       </div>
      
-          <button ref={buttonRef} className="px-10 py-2 bg-zinc-800 rounded-lg disabled:text-zinc-700 disabled:hover:bg-zinc-500 text-white font-semibold mt-5 hover:bg-zinc-700 " onClick={uploadFile}>Build My Portfolio</button>
+          <button ref={buttonRef} className="px-10 py-2 bg-blue-700 rounded-lg disabled:text-zinc-300 disabled:bg-zinc-800 disabled:hover:bg-blue-900 text-white font-semibold mt-5 hover:bg-blue-900 " onClick={uploadFile}>Build My Portfolio</button>
           <p className="mt-5 font-semibold text-green-500">{message}</p>
         </form>
        
@@ -275,7 +284,7 @@ export default function Dashboard() {
             <li>Create a new repository on GitHub.</li>
             <li>Upload your <code>index.html</code> and other files.</li>
             <li>Go to "Settings" → "Pages" and select the "main" branch.</li>
-            <li>Your website will be live at <code>https://yourusername.github.io/repositoryname/</code>.</li>
+            <li>Your website will be live at <br/><code className="w-[90vw] text-sm">https://yourusername.github.io/repositoryname/</code>.</li>
         </ol>
     </div>
 
