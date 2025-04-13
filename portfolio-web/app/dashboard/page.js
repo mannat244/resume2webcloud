@@ -108,58 +108,35 @@ export default function Dashboard() {
               <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
               <title>Portfolio Preview</title>
               <!-- Google Font: Poppins Bold -->
-              <link
-                href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
-                rel="stylesheet"
-              />
+              <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
               <style>
-                /* Basic reset and box-sizing */
-                * {
-                  box-sizing: border-box;
+                /* Hide scrollbar for a cleaner look */
+                ::-webkit-scrollbar {
+                  display: none;
                 }
-                html, body {
-                  margin: 0;
-                  padding: 0;
-                  height: 100%;
-                  width: 100%;
-                  /* Allow vertical scrolling, but hide scrollbar */
-                  overflow-y: scroll;
-                  scrollbar-width: none; /* Firefox */
-                }
-                html::-webkit-scrollbar, body::-webkit-scrollbar {
-                  display: none; /* Chrome, Safari, Opera */
-                }
-                body {
+                body { 
+                  margin: 0; 
                   font-family: 'Poppins', sans-serif;
-                  background: #f4f4f4;
                 }
-                /* ====== FULL-WIDTH HEADER (CARD) ====== */
                 .preview-header {
-                  position: relative;
-                  z-index: 2;
-                  width: 100%;
-                  background: #18181B;
-                  padding: 15px 20px;
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
-                  border-bottom-left-radius: 15px;
-                  border-bottom-right-radius: 15px;
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                  padding: 12px;
+                  background: rgb(24, 24, 27);
+                  border-bottom: 1px solid #333;
                 }
                 .header-text {
                   font-size: 1.3em;
                   color: rgb(152, 156, 157);
                   font-weight: bold;
-                  margin: 0;
                 }
-                /* ====== DOWNLOAD BUTTON ====== */
                 .download-button {
                   display: flex;
                   align-items: center;
                   text-decoration: none;
                   background-color: #3B82F6; /* blue-500 */
-                  padding: 10px 15px;
+                  padding: 8px 12px;
                   border-radius: 5px;
                   color: #fff;
                   font-weight: bold;
@@ -171,48 +148,32 @@ export default function Dashboard() {
                   margin-right: 8px;
                   fill: #fff;
                 }
-                /* ====== IFRAME STYLING ====== */
                 iframe {
-                  display: block;
                   width: 100%;
-                  height: calc(100vh - 50px); /* Adjust based on header height */
+                  height: calc(100vh - 70px); /* Adjust height based on header height */
                   border: none;
-                  margin-top: -13px; /* Overlap effect for rounded corners */
                 }
               </style>
             </head>
             <body>
-              <!-- Full-width header flush to the top -->
               <div class="preview-header">
-                <h1 class="header-text">Preview Portfolio</h1>
+                <div class="header-text">Preview Portfolio</div>
                 <a class="download-button" href="${url}" download="portfolio.html">
-                  <svg
-                    version="1.1"
-                    id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    x="0px"
-                    y="0px"
-                    viewBox="0 0 29.978 29.978"
-                    xml:space="preserve"
-                  >
+                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+                       xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+                       viewBox="0 0 29.978 29.978" xml:space="preserve">
                     <g>
-                      <path
-                        d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967
-                        c1.115,0,2.016-0.9,2.016-2.012v-8.861H25.462z"
-                      />
-                      <path
-                        d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416
+                      <path d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967
+                        c1.115,0,2.016-0.9,2.016-2.012v-8.861H25.462z"/>
+                      <path d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416
                         c0-2.449,0-6.906,0-8.723c0,0-0.129-0.494,0.615-0.494c0.75,0,4.035,0,4.572,0c0.536,0,0.524,0.416,0.524,0.416
                         c0,1.762,0,6.373,0,8.742c0,0.768,0,1.266,0,1.266s1.842,0,2.998,0c1.154,0,0.285,0.867,0.285,0.867
-                        s-4.904,6.51-5.588,7.193C15.092,18.979,14.62,18.426,14.62,18.426z"
-                      />
+                        s-4.904,6.51-5.588,7.193C15.092,18.979,14.62,18.426,14.62,18.426z"/>
                     </g>
                   </svg>
-                  Download Portfolio
+                  Download
                 </a>
               </div>
-              <!-- Iframe fills the rest of the viewport -->
               <iframe src="${blobUrl}"></iframe>
             </body>
           </html>
@@ -227,6 +188,7 @@ export default function Dashboard() {
         }
       });
   };
+  
   
 
   const uploadFile = async (e) => {
