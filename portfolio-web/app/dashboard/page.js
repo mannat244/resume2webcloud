@@ -318,7 +318,7 @@ export default function Dashboard() {
             <li>Create a new repository on GitHub.</li>
             <li>Upload your <code>index.html</code> and other files.</li>
             <li>Go to "Settings" → "Pages" and select the "main" branch.</li>
-            <li>Your website will be live athttps://yourusername.github.io/repositoryname/.</li>
+            <li>Your website will be live at default link.</li>
         </ol>
     </div>
 
