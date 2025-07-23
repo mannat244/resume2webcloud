@@ -13,7 +13,7 @@ cloudinary.config({
   
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
-const model = genAI.getGenerativeModel({ model: 'models/gemini-1.5-flash' });
+const model = genAI.getGenerativeModel({ model: 'models/gemini-2.0-flash' });
 
 export async function POST(req) {
     const data = await req.json()
